@@ -39,12 +39,12 @@ const Last = ({ ultima }) => {
             const now = moment();
             const diffMinutes = now.diff(incidentTime, 'minutes');
             //console.log("diff Minutes :", diffMinutes);
-            if (diffMinutes < 7 && !active) {
+            if (diffMinutes < 7 && diffMinutes > 0 && !active) {
                 setActive(true);
                 audioRef.current.play();
-            } else if (diffMinutes > 7 && active) {
+            } else if (diffMinutes > 7 || diffMinutes < 0 && active) {
                 setActive(false);
-                audioRef.current.pause()
+                audioRef.current.pause();
                 audioRef.current.currentTime = 0;
             }
         }

@@ -6,12 +6,13 @@ import Logo from "../src/assets/img/logo.png";
 import LinkedIn from "../src/assets/img/in.svg";
 import axios from 'axios';
 //import data from "./assets/data/data.json";
+import Loading from './Components/Loading/Loading';
 import { useEffect, useState } from 'react';
 
 function App() {
 
-  const [incidents, setIncidents] = useState([]);
-  const [last, setLast] = useState({});
+  const [incidents, setIncidents] = useState(null);
+  const [last, setLast] = useState(null);
   const endpoint = "https://cecomapi.erickpajares.dev/incidents";
 
   const fetchData = async () => {
@@ -44,6 +45,7 @@ function App() {
 
   return (
     <>
+
       <header className="flex flex-row items-center justify-center px-5">
         <div className="flex flex-col w-[fit-content] justify-center items-center">
           <img src={Logo} className="h-[100px] w-[300px]" />
@@ -52,9 +54,10 @@ function App() {
           <p>SISTEMA DE SEGUIMIENTO DE EMERGENCIAS</p>
         </span>
       </header>
+      {last && incidents ? "" : <Loading />}
       <main className="flex flex-col gap-5 justify-center items-center px-5 my-1">
-        <Last ultima={last} />
-        <Container incidencias={incidents} />
+        {last ? <Last ultima={last} /> : ""}
+        {incidents ? <Container incidencias={incidents} /> : ""}
 
       </main>
       <footer className="flex justify-center my-1">
