@@ -12,7 +12,7 @@ function App() {
 
   const [incidents, setIncidents] = useState([]);
   const [last, setLast] = useState({});
-  const endpoint = "http://64.23.141.180:3000/incidents";
+  const endpoint = "https://cecomapi.erickpajares.dev/incidents";
 
   const fetchData = async () => {
     try {
@@ -72,7 +72,6 @@ export default App
 
 /*
  <button onClick={checkData}>CLICK</button>
-
  {
     parte: "2024025057",
     titulo: "MATERIALES PELIGROSOS (INCIDENTE) / FUGA GAS GLP Y OTROS GASES INFLAM / BALON DOMICILIARIO (10KG)",
