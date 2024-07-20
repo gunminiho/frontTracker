@@ -33,7 +33,7 @@ function App() {
     const interval = setInterval(() => {
       fetchData();
       //alert("Se actualizo lista!");
-    }, 60000); // 120000 ms = 2 minutos
+    }, 30000); // 120000 ms = 2 minutos
 
     return () => clearInterval(interval); // Limpiar el intervalo al desmontar el componente
   }, []);

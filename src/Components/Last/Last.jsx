@@ -15,7 +15,7 @@ const Last = ({ ultima }) => {
     const [active, setActive] = useState(false);
 
     const sendMessage = () => {
-        const phoneNumber = "51"+window.prompt('Por favor, ingrese su número de teléfono en formato internacional (e.g., 987654321):');
+        const phoneNumber = "51"+window.prompt('Por favor, ingrese su número de teléfono en formato normal (e.g., 987654321):');
 
         if (phoneNumber) {
             const message = `Última incidencia:
@@ -39,10 +39,11 @@ const Last = ({ ultima }) => {
             const now = moment();
             const diffMinutes = now.diff(incidentTime, 'minutes');
             //console.log("diff Minutes :", diffMinutes);
-            if (diffMinutes < 7 && diffMinutes > 0 && !active) {
+            if (diffMinutes <= 10 && diffMinutes > 0 && !active) {
+		console.log("hora que encontro la incidencia:",now);
                 setActive(true);
                 audioRef.current.play();
-            } else if (diffMinutes > 7 || diffMinutes < 0 && active) {
+            } else if (diffMinutes > 10 || diffMinutes < 0 && active) {
                 setActive(false);
                 audioRef.current.pause();
                 audioRef.current.currentTime = 0;
