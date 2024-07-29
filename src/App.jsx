@@ -13,7 +13,8 @@ function App() {
 
   const [incidents, setIncidents] = useState(null);
   const [last, setLast] = useState(null);
-  const endpoint = "https://cecomapi.erickpajares.dev/incidents";
+  //const endpoint = "https://cecomapi.erickpajares.dev/incidents";
+  const endpoint = "http://127.0.0.1:3000/incidents";
 
   const fetchData = async () => {
     try {

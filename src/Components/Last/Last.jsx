@@ -3,6 +3,7 @@ import img2 from "../../assets/img/Clock.png";
 import img3 from "../../assets/img/Map.png";
 import img4 from "../../assets/img/Map pin.png";
 import img5 from "../../assets/img/Calendar.png";
+import img6 from "../../assets/img/unidades.svg";
 import "./glow.css";
 import moment from "moment";
 import Siren from "../../assets/audio/sirena.mp3";
@@ -13,9 +14,10 @@ const Last = ({ ultima }) => {
 
     const audioRef = useRef(new Audio(Siren));
     const [active, setActive] = useState(false);
+    const textoAEliminar = " - SAN JUAN DE LURIGANCHO";
 
     const sendMessage = () => {
-        const phoneNumber = "51"+window.prompt('Por favor, ingrese su número de teléfono en formato normal (e.g., 987654321):');
+        const phoneNumber = "51" + window.prompt('Por favor, ingrese su número de teléfono en formato normal (e.g., 987654321):');
 
         if (phoneNumber) {
             const message = `Última incidencia:
@@ -40,7 +42,7 @@ const Last = ({ ultima }) => {
             const diffMinutes = now.diff(incidentTime, 'minutes');
             //console.log("diff Minutes :", diffMinutes);
             if (diffMinutes <= 10 && diffMinutes > 0 && !active) {
-		console.log("hora que encontro la incidencia:",now);
+                console.log("hora que encontro la incidencia:", now.format('DD-MM-YYYY HH:mm:ss'));
                 setActive(true);
                 audioRef.current.play();
             } else if (diffMinutes > 10 || diffMinutes < 0 && active) {
@@ -58,19 +60,21 @@ const Last = ({ ultima }) => {
                 <div className="mx-4">
                     <p className=" text-[12px] sm:text-[23px] md:text-2xl flex justify-start items-center my-3 gap-3  "><img src={img1} className={`size-14 md:size-14 ${active ? "animate-pulse" : ""}`} />{ultima?.titulo}</p>
                     <p className="text-[10px] sm:text-[14px] md:text-[16px] flex justify-start items-center my-3">
-                        <img src={img3} className="size-8 mx-[16px]" />{ultima?.direccion}</p>
+                        <img src={img3} className="size-8 mx-[16px]" />{ultima?.direccion.replace(textoAEliminar, '')}</p>
                     <p className="text-[10px] sm:text-[14px] md:text-[16px] flex justify-start items-center my-3">
                         <img src={img4} className="size-8 mx-[16px]" />SAN JUAN DE LURIGANCHO</p>
                     <p className="text-[10px] sm:text-[14px] md:text-[16px] flex justify-start items-center my-3">
                         <img src={img2} className="size-8 mx-[16px]" />{ultima?.hora} HRS</p>
                     <p className="text-[10px] sm:text-[14px] md:text-[16px] flex justify-start items-center my-3">
                         <img src={img5} className="size-8 mx-[16px]" />{moment(ultima?.fecha).format('DD/MM/YYYY')}</p>
+                    <p className="text-[10px] sm:text-[14px] md:text-[16px] flex justify-start items-center my-3">
+                        <img src={img6} className="size-8 mx-[16px]" />{ultima?.unidadesMoviles}</p>
                     <div className="flex flex-row items-center justify-around gap-2 ">
                         <a className="border-2 rounded-md cursor-pointer border-blue-700 hover:bg-blue-700 p-2 md:text-[15px] text-[8px] text-center"
                             href={`https://sgonorte.bomberosperu.gob.pe/24horas/Home/Map?numparte=${ultima?.parte}`} target="blank">Ver detalles
                         </a>
                         <a className="bg-[#25D366] text-white cursor-pointer p-2 rounded-md hover:animate-pulse md:text-[15px] text-[8px] text-center"
-                        onClick={sendMessage}
+                            onClick={sendMessage}
                         >Enviar por Whatsapp</a>
                     </div>
                 </div>
