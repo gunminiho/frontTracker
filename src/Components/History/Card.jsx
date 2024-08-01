@@ -5,6 +5,7 @@ import img4 from "../../assets/img/Map pin.png";
 import img5 from "../../assets/img/Calendar.png";
 import img6 from "../../assets/img/unidades.svg";
 import moment from "moment";
+import formatDate from "../../helpers/date";
 
 
 const Container = ({ incident }) => {
@@ -23,7 +24,7 @@ const Container = ({ incident }) => {
                 <p className="flex justify-start items-center text-[10px] my-1" >
                     <img src={img4} className="size-5 mx-[6px] bg-white rounded-xl " />{incident?.hora} HRS</p>
                 <p className="flex justify-start items-center text-[10px] my-1" >
-                    <img src={img5} className="size-5 mx-[6px] bg-white rounded" />{moment(incident?.fecha).format('DD/MM/YYYY')}</p>
+                    <img src={img5} className="size-5 mx-[6px] bg-white rounded" />{formatDate(incident?.fecha)}</p>
                     <p className="flex justify-start items-center text-[10px] my-1" >
                     <img src={img6} className="size-5 mx-[6px] bg-white rounded" />{incident?.unidadesMoviles.join(" , ")}</p>
                 <div className="flex justify-center items-center">

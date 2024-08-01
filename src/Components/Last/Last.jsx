@@ -6,6 +6,7 @@ import img5 from "../../assets/img/Calendar.png";
 import img6 from "../../assets/img/unidades.svg";
 import "./glow.css";
 import moment from "moment";
+import formatDate from "../../helpers/date";
 import Siren from "../../assets/audio/sirena.mp3";
 import { useRef, useEffect, useState } from "react";
 //chrome://settings/content/sound
@@ -24,7 +25,7 @@ const Last = ({ ultima }) => {
           
     Título: ${ultima.titulo}
     Dirección: ${ultima.direccion}
-    Distrito: ${ultima.distrito}
+    Distrito: SAN JUAN DE LURIGANCHO
     Hora: ${ultima.hora} HRS
     Fecha: ${moment(ultima?.fecha).format('DD/MM/YYYY')}
     Enlace al mapa: https://sgonorte.bomberosperu.gob.pe/24horas/Home/Map?numparte=${ultima?.parte}`;
@@ -37,15 +38,17 @@ const Last = ({ ultima }) => {
     useEffect(() => {
 
         if (ultima && ultima.hora) {
+            const incidentDate = moment(ultima.fecha, 'YYYY-MM-DD');
             const incidentTime = moment(ultima.hora, 'HH:mm:ss');
             const now = moment();
             const diffMinutes = now.diff(incidentTime, 'minutes');
+            const isToday = incidentDate.isSame(now, 'day');
             //console.log("diff Minutes :", diffMinutes);
-            if (diffMinutes <= 10 && diffMinutes > 0 && !active) {
-                console.log("hora que encontro la incidencia:", now.format('DD-MM-YYYY HH:mm:ss'));
+            if (isToday && diffMinutes <= 10 && diffMinutes > 0 && !active) {
+                console.log("hora que se encontro la incidencia: ", now.format('DD-MM-YYYY HH:mm:ss'));
                 setActive(true);
                 audioRef.current.play();
-            } else if (diffMinutes > 10 || diffMinutes < 0 && active) {
+            } else if (!isToday || diffMinutes > 10 || diffMinutes < 0 && active) {
                 setActive(false);
                 audioRef.current.pause();
                 audioRef.current.currentTime = 0;
@@ -66,9 +69,9 @@ const Last = ({ ultima }) => {
                     <p className="text-[10px] sm:text-[14px] md:text-[16px] flex justify-start items-center my-3">
                         <img src={img2} className="size-8 mx-[16px]" />{ultima?.hora} HRS</p>
                     <p className="text-[10px] sm:text-[14px] md:text-[16px] flex justify-start items-center my-3">
-                        <img src={img5} className="size-8 mx-[16px]" />{moment(ultima?.fecha).format('DD/MM/YYYY')}</p>
+                        <img src={img5} className="size-8 mx-[16px]" />{formatDate(ultima?.fecha)}</p>
                     <p className="text-[10px] sm:text-[14px] md:text-[16px] flex justify-start items-center my-3">
-                        <img src={img6} className="size-8 mx-[16px]" />{ultima?.unidadesMoviles}</p>
+                        <img src={img6} className="size-8 mx-[16px]" />{ultima?.unidadesMoviles.join(" , ")}</p>
                     <div className="flex flex-row items-center justify-around gap-2 ">
                         <a className="border-2 rounded-md cursor-pointer border-blue-700 hover:bg-blue-700 p-2 md:text-[15px] text-[8px] text-center"
                             href={`https://sgonorte.bomberosperu.gob.pe/24horas/Home/Map?numparte=${ultima?.parte}`} target="blank">Ver detalles
