@@ -11,7 +11,7 @@ import Siren from "../../assets/audio/sirena.mp3";
 import { useRef, useEffect, useState } from "react";
 //chrome://settings/content/sound
 
-const Last = ({ ultima }) => {
+const Last = ({ ultima, click }) => {
 
     const audioRef = useRef(new Audio(Siren));
     const [active, setActive] = useState(false);
@@ -58,7 +58,7 @@ const Last = ({ ultima }) => {
 
     return (
         <>
-            <div className={`flex justify-center items-center border-4 border-[#DC3545] h-[500px] text-black ${active ? "glowing-border" : ""}`}>
+            <div className={`flex justify-center items-center border-4 border-[#DC3545] h-[500px] text-black ${click ? "visible" : "invisible"} ${active ? "glowing-border" : ""}`}>
                 <iframe src={`https://sgonorte.bomberosperu.gob.pe/24horas/Home/Map?numparte=${ultima?.parte}`} className="md:size-[450px] w-[250px] h-[400px] md:w-full md:min-w-[400px] ml-5" />
                 <div className="mx-4">
                     <p className=" text-[12px] sm:text-[23px] md:text-2xl flex justify-start items-center my-3 gap-3  "><img src={img1} className={`size-14 md:size-14 ${active ? "animate-pulse" : ""}`} />{ultima?.titulo}</p>
@@ -88,3 +88,7 @@ const Last = ({ ultima }) => {
 }
 
 export default Last;
+
+/* 
+
+*/

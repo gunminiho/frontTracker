@@ -13,8 +13,10 @@ function App() {
 
   const [incidents, setIncidents] = useState(null);
   const [last, setLast] = useState(null);
+  const [click, setClick] = useState(false);
+  const [ready, setReady] = useState(false);
   //const endpoint = "https://cecomapi.erickpajares.dev/incidents";
-  const endpoint = "http://127.0.0.1:3000/incidents";
+  const endpoint = "http://172.16.1.57:3000/incidents";
 
   const fetchData = async () => {
     try {
@@ -22,7 +24,7 @@ function App() {
       if (data && Array.isArray(data.incidents)) {
         setIncidents(data.incidents.slice(1, data.incidents.length));
         setLast(data.incidents[0]);
-        //console.log("incidentes actualizados");
+        setReady(true);
       }
     } catch (error) {
       console.error(error);
@@ -39,11 +41,6 @@ function App() {
     return () => clearInterval(interval); // Limpiar el intervalo al desmontar el componente
   }, []);
 
-  const checkData = () => {
-    console.log(incidents);
-    console.log(last);
-  };
-
   return (
     <>
 
@@ -55,11 +52,10 @@ function App() {
           <p>SISTEMA DE SEGUIMIENTO DE EMERGENCIAS</p>
         </span>
       </header>
-      {last && incidents ? "" : <Loading />}
       <main className="flex flex-col gap-5 justify-center items-center px-5 my-1">
-        {last ? <Last ultima={last} /> : ""}
-        {incidents ? <Container incidencias={incidents} /> : ""}
-
+      {!click && <Loading setClick={setClick} click={click} ready={ready} />}
+        <Last ultima={last} click={click}  />
+        <Container incidencias={incidents} click={click} />
       </main>
       <footer className="flex justify-center my-1">
         <a className="flex flex-row items-center cursor text-black text-lg"
